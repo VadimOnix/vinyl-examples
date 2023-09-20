@@ -45,19 +45,19 @@ export class RestDataProvider implements IRestDataProvider {
     return data;
   }
 
+  public updateHeaders(headers: Headers): void {
+    this.headers = {
+      ...this.headers,
+      ...headers
+    }
+  }
+
   private isValidUrl(url: string): boolean {
     try {
       new URL(url);
       return true;
     } catch (error) {
       return false;
-    }
-  }
-
-  public updateHeaders(headers: Headers): void {
-    this.headers = {
-      ...this.headers,
-      ...headers
     }
   }
 }

@@ -1,7 +1,6 @@
 import {IRestDataProvider} from "@/shared/providers/RestDataProvider/types";
 import {RestDataProvider} from "@/shared/providers/RestDataProvider/RestDataProvider";
-import {ToDo, InitialConfiguration, AddToDoRequestBody, TodoRepositoryConfiguration} from "./types";
-
+import {AddToDoRequestBody, InitialConfiguration, ToDo, TodoRepositoryConfiguration} from "./types";
 
 
 export class TodoRepository {
@@ -25,8 +24,8 @@ export class TodoRepository {
     if (!config.token || !config.headers) {
       throw new Error('Invalid configuration');
     }
-    const { token, headers } = config;
-    this.restDataProvider.updateHeaders({ ...headers, Authorization: `Bearer ${token}` });
+    const {token, headers} = config;
+    this.restDataProvider.updateHeaders({...headers, Authorization: `Bearer ${token}`});
   }
 
   async addToDo(todo: AddToDoRequestBody): Promise<ToDo> {

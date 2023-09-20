@@ -77,11 +77,11 @@ describe('RestDataProvider', () => {
     const restDataProvider = new RestDataProvider({});
 
     // Set initial headers
-    const initialHeaders = { Authorization: 'Bearer token' };
+    const initialHeaders = {Authorization: 'Bearer token'};
     restDataProvider.updateHeaders(initialHeaders);
 
     // Update headers
-    const newHeaders = { 'X-Custom-Header': 'value' };
+    const newHeaders = {'X-Custom-Header': 'value'};
     restDataProvider.updateHeaders(newHeaders);
 
     // Check that the headers are updated correctly
