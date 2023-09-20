@@ -47,7 +47,7 @@ describe('AuthenticateRepository', () => {
     const authenticateRepository = new AuthenticateRepository(undefined, restDataProviderMock);
 
     // Act
-    authenticateRepository.updateConfiguration({ token, headers });
+    authenticateRepository.updateConfiguration({token, headers});
 
     // Assert
     expect(restDataProviderMock.updateHeaders).toHaveBeenCalledWith(headers);
@@ -77,6 +77,6 @@ describe('AuthenticateRepository', () => {
 
     // Assert
     expect(result).toEqual(expectedResponse);
-    expect(restDataProviderMock.post).toHaveBeenCalledWith('/auth/login', { token });
+    expect(restDataProviderMock.post).toHaveBeenCalledWith('/auth/login', {token});
   });
 });
