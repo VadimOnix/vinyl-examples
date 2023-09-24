@@ -17,10 +17,13 @@
     "autoprefixer": "10.4.15",
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.1",
+    "mobx": "^6.10.2",
+    "mobx-react-lite": "^4.0.4",
     "next": "13.5.1",
     "postcss": "8.4.30",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-use": "^17.4.0",
     "tailwindcss": "3.3.3",
     "tiny-typed-emitter": "^2.1.0",
     "typescript": "5.2.2"

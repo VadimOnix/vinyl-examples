@@ -27,7 +27,11 @@ export class AuthService {
   }
 
   public async login(authInfo: LoginRequestBody): Promise<LoginResponse> {
+    if (typeof window === 'undefined') {
+      throw new Error("You can't login from server side");
+    }
     const user = await this.authenticateRepository.login(authInfo);
+    this.authenticateRepository.setTokenToLocalStorage(user.token)
     return user
   }
 }
