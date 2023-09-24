@@ -1,3 +1,3 @@
 export const defaultEnvs = {
-  NEXT_PUBLIC_API_URL: 'https://api-nodejs-todolist.herokuapp.com'
+  NEXT_PUBLIC_API_URL: 'https://dummyjson.com'
 } as const
