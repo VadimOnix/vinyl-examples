@@ -1,7 +1,8 @@
 import {AuthenticateRepository} from "@/shared/repositories/Authenticate/AuthenticateRepository";
 import {AuthServiceConfiguration, AuthServiceRepositories} from "./types";
 import {GetServerSidePropsContext} from "next";
-import {LoginRequestBody, LoginResponse} from "@/shared/repositories/Authenticate/types";
+import {LoginResponse} from "@/shared/types/server";
+import {LoginRequestBody} from "@/shared/repositories/Authenticate/types";
 
 export class AuthService {
   private authenticateRepository: AuthenticateRepository;
@@ -20,18 +21,23 @@ export class AuthService {
 
   public getToken(ctx?: GetServerSidePropsContext): string | null {
     if (typeof window === 'undefined') {
-      const token = this.authenticateRepository.getTokenFromCookies(ctx?.req.cookies);
-      return token
+      return this.authenticateRepository.getTokenFromCookies(ctx?.req.cookies)
     }
     return this.authenticateRepository.getTokenFromLocalStorage();
   }
 
-  public async login(authInfo: LoginRequestBody): Promise<LoginResponse> {
+  public getUser() {
     if (typeof window === 'undefined') {
-      throw new Error("You can't login from server side");
+      throw Error("You can't get user from server side");
     }
+    return this.authenticateRepository.getUserFromLocalStorage();
+  }
+
+  public async login(authInfo: LoginRequestBody): Promise<LoginResponse> {
     const user = await this.authenticateRepository.login(authInfo);
     this.authenticateRepository.setTokenToLocalStorage(user.token)
+    this.authenticateRepository.setUserToLocalStorage(user)
+    this.authenticateRepository.updateConfiguration({token: user.token})
     return user
   }
 }

@@ -44,6 +44,7 @@ describe('AuthService', () => {
 
   // Can call login method from client side
   it('should call login method from client side', async () => {
+    global.fetch = jest.fn()
     const authService = new AuthService();
     const loginSpy = jest.spyOn(authService.authenticateRepository, 'login').mockImplementation(async () => {
       return {
