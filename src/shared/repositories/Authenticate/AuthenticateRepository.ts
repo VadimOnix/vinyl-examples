@@ -1,14 +1,8 @@
 import {RestDataProvider} from "@/shared/providers/RestDataProvider/RestDataProvider";
-import {
-  AuthenticateRepositoryConfiguration,
-  InitialConfiguration,
-  LoginRequestBody,
-  LoginResponse,
-  User
-} from "./types";
+import {AuthenticateRepositoryConfiguration, InitialConfiguration, LoginRequestBody,} from "./types";
 import {IRestDataProvider} from "@/shared/providers/RestDataProvider/types";
 import {LocalStorageDataProvider} from "@/shared/providers/LocalStorageDataProvider/LocalStorageDataProvider";
-import {NextRequest} from "next/server";
+import {LoginResponse, MeResponse, ResponseData, User} from "@/shared/types/server";
 
 export class AuthenticateRepository {
   private readonly restDataProvider: IRestDataProvider;
@@ -41,26 +35,25 @@ export class AuthenticateRepository {
    * @returns The logged in user.
    */
   async login(authInfo: LoginRequestBody): Promise<LoginResponse> {
-    const response = await this.restDataProvider.post<LoginResponse>('/auth/login', authInfo);
-    const user = {
-      ...response,
-      id: response?.id ?? 15
-    };
-    return user;
+    try {
+      const response = await this.restDataProvider.post<ResponseData<LoginResponse>>('/profile/login', authInfo);
+      if (response?.errors) {
+        throw new Error(response?.errors.join('\n'));
+      }
+      return response.data!
+    } catch (error) {
+      console.error((error as Error).message)
+      throw error
+    }
   }
 
   /**
    * Retrieves the user information for the provided token.
-   * @param token - The user token.
    * @returns The user information.
    */
-  async me(token: string): Promise<User> {
-    const response = await this.restDataProvider.post<LoginResponse>('/auth/login', {token});
-    const user = {
-      ...response,
-      id: response?.id ?? 15
-    };
-    return user;
+  async me(): Promise<MeResponse> {
+    const response = await this.restDataProvider.post<ResponseData<MeResponse>>('/profile/me', {});
+    return response.data!;
   }
 
   getTokenFromLocalStorage(): string | null {
@@ -76,7 +69,12 @@ export class AuthenticateRepository {
     return token ?? null;
   }
 
-  setTokenToCookies(token: string, req: NextRequest): void {
-    req.cookies.set('token', token)
+  setUserToLocalStorage(user: LoginResponse): void {
+    this.localStorageDataProvider.setItem('user', user)
+  }
+
+  getUserFromLocalStorage(): User | null {
+    const user = this.localStorageDataProvider.getItem('user');
+    return user
   }
 }

@@ -1,82 +1,62 @@
 import {AuthenticateRepository} from "@/shared/repositories/Authenticate/AuthenticateRepository";
-import {IRestDataProvider} from "@/shared/providers/RestDataProvider/types";
 
 describe('AuthenticateRepository', () => {
 
-  // Authenticate a user with correct credentials
-  it('should authenticate a user with correct credentials', async () => {
+  // Login with valid credentials returns a token
+  it('should return a token when logging in with valid credentials', async () => {
     // Arrange
     const authInfo = {
-      username: 'correctUsername',
-      password: 'correctPassword'
+      login: 'validLogin',
+      password: 'validPassword'
     };
-    const expectedResponse = {
-      id: 1,
-      username: 'correctUsername',
-      email: 'test@example.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      gender: 'male',
-      image: 'profile.jpg',
-      token: 'validToken'
-    };
+    const expectedToken = 'validToken';
     const restDataProviderMock = {
-      post: jest.fn().mockResolvedValue(expectedResponse)
-    } as unknown as IRestDataProvider;
+      post: jest.fn().mockResolvedValue({ data: { token: expectedToken } })
+    };
     const authenticateRepository = new AuthenticateRepository(undefined, restDataProviderMock);
 
     // Act
     const result = await authenticateRepository.login(authInfo);
 
     // Assert
-    expect(result).toEqual(expectedResponse);
-    expect(restDataProviderMock.post).toHaveBeenCalledWith('/auth/login', authInfo);
+    expect(result.token).toEqual(expectedToken);
   });
 
-  // Update configuration with valid token and headers
-  it('should update configuration with valid token and headers', () => {
+  // Me returns user information
+  it('should return user information when calling me', async () => {
     // Arrange
-    const token = 'validToken';
-    const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
+    const expectedUser = {
+      id: 1,
+      login: 'testUser',
+      password: 'testPassword'
     };
+    const restDataProviderMock = {
+      post: jest.fn().mockResolvedValue({ data: expectedUser })
+    };
+    const authenticateRepository = new AuthenticateRepository(undefined, restDataProviderMock);
+
+    // Act
+    const result = await authenticateRepository.me();
+
+    // Assert
+    expect(result).toEqual(expectedUser);
+    expect(restDataProviderMock.post).toHaveBeenCalledWith('/profile/me', {});
+  });
+
+  // Update configuration updates headers with token
+  it('should update headers with token when updating configuration', () => {
+    // Arrange
+    const token = 'testToken';
+    const headers = { 'Content-Type': 'application/json' };
     const restDataProviderMock = {
       updateHeaders: jest.fn()
-    } as unknown as IRestDataProvider;
-    const authenticateRepository = new AuthenticateRepository(undefined, restDataProviderMock);
-
-    // Act
-    authenticateRepository.updateConfiguration({token, headers});
-
-    // Assert
-    expect(restDataProviderMock.updateHeaders).toHaveBeenCalledWith(headers);
-  });
-
-  // Authenticate a user after login with correct token
-  it('should authenticate a user after login with correct token', async () => {
-    // Arrange
-    const token = 'validToken';
-    const expectedResponse = {
-      id: 1,
-      username: 'correctUsername',
-      email: 'test@example.com',
-      firstName: 'John',
-      lastName: 'Doe',
-      gender: 'male',
-      image: 'profile.jpg',
-      token: 'validToken'
     };
-    const restDataProviderMock = {
-      post: jest.fn().mockResolvedValue(expectedResponse)
-    } as unknown as IRestDataProvider;
     const authenticateRepository = new AuthenticateRepository(undefined, restDataProviderMock);
 
     // Act
-    const result = await authenticateRepository.me(token);
+    authenticateRepository.updateConfiguration({ token, headers });
 
     // Assert
-    expect(result).toEqual(expectedResponse);
-    expect(restDataProviderMock.post).toHaveBeenCalledWith('/auth/login', {token});
+    expect(restDataProviderMock.updateHeaders).toHaveBeenCalledWith({ ...headers, Authorization: `Bearer ${token}` });
   });
 });
