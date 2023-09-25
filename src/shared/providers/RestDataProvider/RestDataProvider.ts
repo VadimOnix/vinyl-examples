@@ -24,7 +24,7 @@ export class RestDataProvider implements IRestDataProvider {
     const response = await fetch(`${this.baseUrl}${url}`, {
       headers: {
         ...this.headers,
-        ...headers
+        ...headers,
       },
       method: 'GET',
     })
@@ -36,7 +36,7 @@ export class RestDataProvider implements IRestDataProvider {
     const response = await fetch(`${this.baseUrl}${url}`, {
       headers: {
         ...this.headers,
-        ...headers
+        ...headers,
       },
       method: 'POST',
       body: typeof body === 'string' ? body : JSON.stringify(body),
