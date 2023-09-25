@@ -20,7 +20,7 @@ describe('AuthButtonDataController', () => {
     dataController['_eventBus'] = eventBusMock;
 
     // Call login method with valid credentials
-    await dataController.login({username: 'validUsername', password: 'validPassword'});
+    await dataController.login({login: 'validUsername', password: 'validPassword'});
 
     // Check that isAuthenticated is set to true
     expect(dataController.isAuthenticated).toBe(true);
@@ -68,7 +68,7 @@ describe('AuthButtonDataController', () => {
     dataController['_eventBus'] = eventBusMock;
 
     // Call login method with invalid credentials
-    dataController.login({username: 'invalidUsername', password: 'invalidPassword'});
+    dataController.login({login: 'invalidUsername', password: 'invalidPassword'});
 
     // Check that isAuthenticated is not set to true
     expect(dataController.isAuthenticated).toBe(false);
@@ -91,7 +91,7 @@ describe('AuthButtonDataController', () => {
 
     // Call login method from server side
     await expect(dataController.login({
-      username: 'validUsername',
+      login: 'validUsername',
       password: 'validPassword'
     })).rejects.toThrowError('You can\'t login from server side');
   });

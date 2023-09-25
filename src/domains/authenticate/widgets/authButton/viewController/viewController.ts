@@ -18,7 +18,7 @@ export class AuthButtonViewController extends BaseViewController<AuthButtonViewC
 
   public async clickOnAuthButton() {
     await this._deps.dataController.login({
-      username: LOGIN,
+      login: LOGIN,
       password: PASSWORD
     })
   }
