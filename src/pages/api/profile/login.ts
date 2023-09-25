@@ -1,40 +1,12 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
 import {sign} from 'jsonwebtoken';
 import {ENV} from '@/configs/env/env';
-
-export type User = {
-  id: number,
-  login: string,
-  password: string
-}
-
-type UserResponse = {
-  token: string
-}
-
-export type ResponseData<T> = {
-  data?: T,
-  errors?: {
-    message: string
-  }[]
-}
-
-export const users: User[] = [
-  {"id": 1, "login": "john_doe", "password": "password123"},
-  {"id": 2, "login": "jane_doe", "password": "letmein"},
-  {"id": 3, "login": "sam_smith", "password": "p@ssw0rd"},
-  {"id": 4, "login": "mary_jones", "password": "qwerty"},
-  {"id": 5, "login": "chris_brown", "password": "abc123"},
-  {"id": 6, "login": "lisa_taylor", "password": "securepass"},
-  {"id": 7, "login": "michael_clark", "password": "password456"},
-  {"id": 8, "login": "susan_williams", "password": "letmeinnow"},
-  {"id": 9, "login": "kevin_anderson", "password": "myp@ssword"},
-  {"id": 10, "login": "emily_jackson", "password": "password789"}
-]
+import {LoginResponse, ResponseData} from "@/shared/types/server";
+import {users} from "@/mockData/db";
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData<UserResponse>>
+  res: NextApiResponse<ResponseData<LoginResponse>>
 ) {
   switch (req.method) {
     case 'POST': {

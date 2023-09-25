@@ -1,21 +1,12 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import {TokenPayload} from "@/pages/api/profile/me";
 import {verify} from "jsonwebtoken";
 import {ENV} from "@/configs/env/env";
-import {ResponseData} from "@/pages/api/profile/login";
-import {toDos} from './list'
-
-type NewToDo = {
-  id: number
-  title: string
-  description: string
-  completed: boolean
-  userId: number
-}
+import {ResponseData, ToDo, TokenPayload} from "@/shared/types/server";
+import {toDos} from "@/mockData/db";
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseData<NewToDo>>
+  res: NextApiResponse<ResponseData<ToDo>>
 ) {
   try {
     switch (req.method) {

@@ -1,16 +1,8 @@
 import type {NextApiRequest, NextApiResponse} from 'next'
-import type {ResponseData, User} from './login'
-import {users} from './login'
 import {verify} from 'jsonwebtoken'
 import {ENV} from "@/configs/env/env";
-
-type MeResponse = Omit<User, 'password'>
-
-export type TokenPayload = {
-  id: number,
-  iat: number,
-  exp: number
-}
+import {MeResponse, ResponseData, TokenPayload} from "@/shared/types/server";
+import {users} from "@/mockData/db";
 
 export default function handler(
   req: NextApiRequest,
