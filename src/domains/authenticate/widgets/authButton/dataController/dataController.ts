@@ -9,7 +9,6 @@ import {Events, GlobalEvents} from "@/shared/types/events";
 export class AuthButtonDataController implements IDataController<AuthButtonHydrationData> {
   private readonly _deps: AuthButtonDataControllerDeps;
   private readonly _eventBus: EventBus<Events>;
-  private _isAuthenticated: boolean;
 
   constructor(deps: AuthButtonDataControllerDeps) {
     this._deps = deps;
@@ -18,6 +17,12 @@ export class AuthButtonDataController implements IDataController<AuthButtonHydra
     this._isAuthenticated = false;
 
     makeAutoObservable(this)
+  }
+
+  private _isAuthenticated: boolean;
+
+  public get isAuthenticated() {
+    return this._isAuthenticated
   }
 
   init() {
@@ -30,10 +35,6 @@ export class AuthButtonDataController implements IDataController<AuthButtonHydra
 
   hydrate(hydrationData?: never): void {
     console.warn('This widget does not support hydration.');
-  }
-
-  public get isAuthenticated() {
-    return this._isAuthenticated
   }
 
   public async login(authInfo: LoginRequestBody) {

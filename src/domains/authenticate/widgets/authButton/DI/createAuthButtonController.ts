@@ -6,7 +6,7 @@ export const createAuthButtonController = (hydrationData?: never) => {
   const dataController = new AuthButtonDataController({
     authService: new AuthService(),
   });
-  const viewController = new AuthButtonViewController({ dataController: dataController });
+  const viewController = new AuthButtonViewController({dataController: dataController});
 
   if (hydrationData) {
     dataController.hydrate(hydrationData);

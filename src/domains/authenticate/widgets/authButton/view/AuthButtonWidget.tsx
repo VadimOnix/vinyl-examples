@@ -3,7 +3,7 @@ import {withWidgetControllers} from "@/domains/authenticate/widgets/authButton/D
 import {createAuthButtonController} from "@/domains/authenticate/widgets/authButton/DI/createAuthButtonController";
 
 const AuthButtonComponent = (props: any) => {
-  return <AuthButtonClient/>;
+  return (<AuthButtonClient/>)
 }
 
 export const AuthButtonWidget = withWidgetControllers(createAuthButtonController)(AuthButtonComponent);
