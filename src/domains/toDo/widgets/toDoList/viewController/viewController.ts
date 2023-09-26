@@ -36,6 +36,10 @@ export class ToDoListViewController extends BaseViewController<ToDoListViewContr
     return this._deps.dataController.toDos
   }
 
+  public get isAbleToDoList() {
+    return this._deps.dataController.isAbleToDoList;
+  }
+
   public changeInputDescriptionValue(value: string) {
     this._inputDescriptionValue = value
   }
@@ -50,10 +54,6 @@ export class ToDoListViewController extends BaseViewController<ToDoListViewContr
 
   public clickOnCheckButton(toDoId: number) {
     this._deps.dataController.toggleToDoById(toDoId)
-  }
-
-  public get isAbleToDoList() {
-    return this._deps.dataController.isAbleToDoList;
   }
 
   public async clickOnAddButton() {

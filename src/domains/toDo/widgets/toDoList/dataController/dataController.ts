@@ -11,7 +11,6 @@ export class ToDoListDataController implements IDataController<ToDoListHydration
   private _deps: ToDoListDataControllerDeps
   private _eventBus: EventBus<Events>
   private _reactions: Reaction[];
-  private _isAbleToDoList: boolean;
 
   constructor(deps: ToDoListDataControllerDeps) {
     this._deps = deps
@@ -25,6 +24,12 @@ export class ToDoListDataController implements IDataController<ToDoListHydration
     makeAutoObservable(this)
   }
 
+  private _isAbleToDoList: boolean;
+
+  public get isAbleToDoList() {
+    return this._isAbleToDoList
+  }
+
   private _toDos: ToDo[];
 
   public get toDos() {
@@ -35,10 +40,6 @@ export class ToDoListDataController implements IDataController<ToDoListHydration
 
   public get isFetching() {
     return this._isFetching
-  }
-
-  public get isAbleToDoList() {
-    return this._isAbleToDoList
   }
 
   init() {

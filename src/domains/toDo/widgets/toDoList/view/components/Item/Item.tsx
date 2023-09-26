@@ -6,7 +6,7 @@ import {ChangeEvent} from 'react'
 const ItemComponent = (props: ItemProps) => {
   const {toDo} = props
   const vc = useViewController()
-  
+
   const taskId = `task_${toDo.id}`
 
   const handleToggle = (event: ChangeEvent<HTMLInputElement>) => {

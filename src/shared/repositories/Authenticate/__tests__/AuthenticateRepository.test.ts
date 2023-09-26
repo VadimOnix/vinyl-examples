@@ -11,7 +11,7 @@ describe('AuthenticateRepository', () => {
     };
     const expectedToken = 'validToken';
     const restDataProviderMock = {
-      post: jest.fn().mockResolvedValue({ data: { token: expectedToken } })
+      post: jest.fn().mockResolvedValue({data: {token: expectedToken}})
     };
     const authenticateRepository = new AuthenticateRepository(undefined, restDataProviderMock);
 
@@ -31,7 +31,7 @@ describe('AuthenticateRepository', () => {
       password: 'testPassword'
     };
     const restDataProviderMock = {
-      post: jest.fn().mockResolvedValue({ data: expectedUser })
+      post: jest.fn().mockResolvedValue({data: expectedUser})
     };
     const authenticateRepository = new AuthenticateRepository(undefined, restDataProviderMock);
 
@@ -47,16 +47,16 @@ describe('AuthenticateRepository', () => {
   it('should update headers with token when updating configuration', () => {
     // Arrange
     const token = 'testToken';
-    const headers = { 'Content-Type': 'application/json' };
+    const headers = {'Content-Type': 'application/json'};
     const restDataProviderMock = {
       updateHeaders: jest.fn()
     };
     const authenticateRepository = new AuthenticateRepository(undefined, restDataProviderMock);
 
     // Act
-    authenticateRepository.updateConfiguration({ token, headers });
+    authenticateRepository.updateConfiguration({token, headers});
 
     // Assert
-    expect(restDataProviderMock.updateHeaders).toHaveBeenCalledWith({ ...headers, Authorization: `Bearer ${token}` });
+    expect(restDataProviderMock.updateHeaders).toHaveBeenCalledWith({...headers, Authorization: `Bearer ${token}`});
   });
 });
