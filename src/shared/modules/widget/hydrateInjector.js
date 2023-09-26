@@ -28,7 +28,7 @@ const createHydrationWrapper = (HydrationContext) => {
 
       return (
         <HydrationContext.Provider value={hydrationDataState}>
-          <Component {...restProps} />;
+          <Component {...restProps} />
         </HydrationContext.Provider>
       );
     };
