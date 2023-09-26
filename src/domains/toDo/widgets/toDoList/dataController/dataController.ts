@@ -79,17 +79,11 @@ export class ToDoListDataController implements IDataController<ToDoListHydration
   }
 
   public async addNewToDo(params: AddToDoRequestBody) {
-    try {
-      this._isFetching = true
-      const addedToDo = await this._deps.toDoService.addToDo(params)
-      runInAction(() => {
-        this._toDos.push(addedToDo)
-      })
-    } finally {
-      runInAction(() => {
-        this._isFetching = false
-      })
-    }
+    const addedToDo = await this._deps.toDoService.addToDo(params)
+    runInAction(() => {
+      this._toDos.push(addedToDo)
+    })
+
   }
 
   public toggleToDoById(id: number) {
