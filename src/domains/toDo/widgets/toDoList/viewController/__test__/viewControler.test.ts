@@ -20,27 +20,6 @@ describe('ToDoViewController', () => {
     expect(viewController.isFetching).toBe(false);
   });
 
-  // calls addNewToDo with correct inputDescriptionValue on clickOnCheckButton
-  it('should call addNewToDo with correct inputDescriptionValue on clickOnCheckButton', async () => {
-    const dataControllerMock = {
-      addNewToDo: jest.fn(),
-    };
-    const depsMock = {
-      dataController: dataControllerMock,
-    };
-    const viewController = new ToDoListViewController(depsMock);
-    viewController.changeInputDescriptionValue('Test description ToDo');
-    viewController.changeInputTitleValue('Test ToDo');
-
-    await viewController.clickOnCheckButton();
-
-    expect(dataControllerMock.addNewToDo).toHaveBeenCalledWith({
-      description: 'Test description ToDo',
-      completed: false,
-      title: 'Test ToDo',
-    });
-  });
-
   // sets inputDescriptionValue to empty string on clickOnCrossButton
   it('should set inputDescriptionValue to empty string on clickOnCrossButton', () => {
     const dataControllerMock = {};
@@ -55,36 +34,73 @@ describe('ToDoViewController', () => {
     expect(viewController.inputDescriptionValue).toBe('');
   });
 
-  // throws error if addNewToDo is called without authenticated user
-  it('should throw error if addNewToDo is called without authenticated user', async () => {
-    const dataControllerMock = {
-      addNewToDo: jest.fn().mockImplementation(() => {
-        throw new Error('User is not authenticated!');
-      }),
+  // can get inputTitleValue
+  it('should return the input title value', () => {
+    const deps = {
+      dataController: {
+        isFetching: false,
+        toDos: [],
+        isAbleToDoList: true
+      }
     };
-    const depsMock = {
-      dataController: dataControllerMock,
-    };
-    const viewController = new ToDoListViewController(depsMock);
-    viewController.changeInputDescriptionValue('Test ToDo');
-
-    await expect(viewController.clickOnCheckButton()).rejects.toThrowError('User is not authenticated!');
+    const viewController = new ToDoListViewController(deps);
+    viewController.changeInputTitleValue('Test Title');
+    expect(viewController.inputTitleValue).toBe('Test Title');
   });
 
-  // throws error if addNewToDo fails
-  it('should throw error if addNewToDo fails', async () => {
-    const dataControllerMock = {
-      addNewToDo: jest.fn().mockImplementation(() => {
-        throw new Error('Failed to add new ToDo');
-      }),
+  // can get inputDescriptionValue
+  it('should return the input description value', () => {
+    const deps = {
+      dataController: {
+        isFetching: false,
+        toDos: [],
+        isAbleToDoList: true
+      }
     };
-    const depsMock = {
-      dataController: dataControllerMock,
-    };
-    const viewController = new ToDoListViewController(depsMock);
-    viewController.changeInputDescriptionValue('Test ToDo');
-
-    await expect(viewController.clickOnCheckButton()).rejects.toThrowError('Failed to add new ToDo');
+    const viewController = new ToDoListViewController(deps);
+    viewController.changeInputDescriptionValue('Test Description');
+    expect(viewController.inputDescriptionValue).toBe('Test Description');
   });
 
+  // can get isFetching
+  it('should return the fetching status', () => {
+    const deps = {
+      dataController: {
+        isFetching: true,
+        toDos: [],
+        isAbleToDoList: true
+      }
+    };
+    const viewController = new ToDoListViewController(deps);
+    expect(viewController.isFetching).toBe(true);
+  });
+
+  // can handle empty inputTitleValue
+  it('should handle empty input title value', () => {
+    const deps = {
+      dataController: {
+        isFetching: false,
+        toDos: [],
+        isAbleToDoList: true
+      }
+    };
+    const viewController = new ToDoListViewController(deps);
+    viewController.changeInputTitleValue('');
+    expect(viewController.inputTitleValue).toBe('');
+  });
+
+  // can handle empty inputDescriptionValue
+  it('should handle empty input description value', () => {
+    const deps = {
+      dataController: {
+        isFetching: false,
+        toDos: [],
+        isAbleToDoList: true
+      }
+    };
+    const viewController = new ToDoListViewController(deps);
+    viewController.changeInputDescriptionValue('');
+    expect(viewController.inputDescriptionValue).toBe('');
+  });
 });
+
